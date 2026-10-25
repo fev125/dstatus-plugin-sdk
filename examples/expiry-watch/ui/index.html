@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>到期提醒</title>
+    <link rel="stylesheet" href="/plugin-ui-sdk/v1/kit.css" />
+    <script src="/plugin-ui-sdk/v1/dstatus-plugin-ui.js"></script>
+  </head>
+  <body>
+    <div class="ds-page">
+      <div class="ds-card">
+        <div class="ds-card__title">即将到期的节点</div>
+
+        <p class="ds-muted ds-small" id="summary">正在加载…</p>
+
+        <div id="alert-box"></div>
+
+        <table class="ds-table" id="table" hidden>
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>到期日</th>
+              <th>剩余天数</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+
+        <p class="ds-muted" id="empty" hidden>没有节点会在提醒窗口内到期。</p>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px">
+          <button class="ds-btn ds-btn--primary" id="btn-check" type="button">立即检查</button>
+          <button class="ds-btn ds-btn--ghost" id="btn-reload" type="button">刷新</button>
+        </div>
+        <p class="ds-help">提醒天数在插件卡片的「设置」里修改；每小时自动检查一次。</p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

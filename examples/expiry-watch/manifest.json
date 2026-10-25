@@ -1,0 +1,93 @@
+{
+  "format": 1,
+  "type": "plugin",
+  "id": "expiry-watch",
+  "name": "到期提醒",
+  "description": "每小时检查节点到期时间，列出 N 天内到期的节点，并在节点进入提醒窗口时通知一次",
+  "version": "1.0.0",
+  "protocol": 2,
+  "main": "index.js",
+  "defaults": { "fresh": true, "upgrade": true },
+  "permissions": [
+    "nodes:read",
+    "timers",
+    "storage",
+    "notify",
+    "http:admin",
+    "pages",
+    "tools"
+  ],
+  "dataVersion": 1,
+  "ui": {
+    "settingsSchema": "settings.schema.json",
+    "assets": "ui"
+  },
+  "contributes": {
+    "pages": [
+      {
+        "id": "main",
+        "title": "到期提醒",
+        "entry": "ui/index.html",
+        "menu": { "group": "servers" }
+      }
+    ],
+    "notificationEvents": [
+      {
+        "key": "nodeExpiring",
+        "title": "节点即将到期",
+        "desc": "有节点进入「N 天内到期」窗口时发一次；同一节点离开窗口再进入才会再发"
+      }
+    ],
+    "tools": [
+      {
+        "name": "expiry_watch_list",
+        "title": "列出即将到期的节点",
+        "category": "read",
+        "description": "返回当前提醒天数 N 以及 N 天内到期（含已过期）的节点：名称、到期时间、剩余天数。不改变任何状态。",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "refresh": {
+              "type": "boolean",
+              "description": "true 时立即重新检查一次再返回；缺省返回上一次检查结果",
+              "default": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "expiry_watch_set_days",
+        "title": "修改到期提醒天数",
+        "category": "write",
+        "dryRun": true,
+        "description": "把「提前多少天提醒」改为 days（1–365 的整数）。dryRun 只返回将要发生的变化，不保存。",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "days": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 365,
+              "description": "提前提醒的天数"
+            }
+          },
+          "required": ["days"],
+          "additionalProperties": false
+        }
+      }
+    ]
+  },
+  "data": { "onUninstall": "delete" },
+  "resources": { "memoryMb": 32, "storageMb": 8 },
+  "details": {
+    "settings": [
+      { "title": "提醒天数", "desc": "节点到期前多少天开始列入「即将到期」并提醒，缺省 7 天" }
+    ],
+    "whenDisabled": [
+      { "title": "停止检查与提醒", "desc": "关闭后不再每小时检查，也不再发通知；已记录的提醒状态保留，重新开启后继续" }
+    ]
+  },
+  "author": "第三方示例",
+  "license": "MIT"
+}

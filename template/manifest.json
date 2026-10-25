@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "type": "plugin",
+  "id": "node-notes",
+  "name": "节点备注",
+  "description": "给节点记备注、定时数离线节点、超过阈值发通知；带后台页面与 AI 工具的样板插件",
+  "version": "1.0.0",
+  "protocol": 2,
+  "main": "index.js",
+  "author": "你的名字",
+  "license": "MIT",
+  "defaults": { "fresh": true, "upgrade": true },
+  "permissions": ["storage", "nodes:read", "timers", "notify", "tools", "http:admin", "pages"],
+  "dataVersion": 1,
+  "resources": { "memoryMb": 32, "storageMb": 2 },
+  "data": { "onUninstall": "keep" },
+  "ui": { "settingsSchema": "settings.schema.json", "assets": "ui" },
+  "group": "示例",
+  "details": {
+    "settings": [{ "title": "离线阈值与提醒", "desc": "在插件卡片的设置里改", "href": "/admin/plugins/node-notes/pages/main", "label": "打开页面" }],
+    "whenDisabled": [
+      { "title": "停止统计", "desc": "不再每分钟数离线节点，不再发通知" },
+      { "title": "入口隐藏", "desc": "「节点备注」页面与 AI 工具不再出现" },
+      { "title": "数据保留", "desc": "备注都保留，重新开启即恢复" }
+    ]
+  },
+  "contributes": {
+    "pages": [
+      { "id": "main", "title": "节点备注", "icon": "extension", "entry": "ui/index.html", "menu": { "group": "tools" } }
+    ],
+    "notificationEvents": [
+      { "key": "offlineOverThreshold", "title": "离线节点超过阈值", "desc": "每分钟统计一次，离线数超过设置的阈值时发一次，恢复后再发可再触发" }
+    ],
+    "tools": [
+      {
+        "name": "node_notes_list",
+        "title": "读取节点备注",
+        "category": "read",
+        "description": "列出所有节点备注（sid、节点名、备注、更新时间）",
+        "inputSchema": { "type": "object", "properties": {}, "additionalProperties": false }
+      },
+      {
+        "name": "node_notes_set",
+        "title": "写节点备注",
+        "category": "write",
+        "dryRun": true,
+        "description": "给一个节点写备注（覆盖）；text 传空字符串为删除；dryRun 只预览",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sid": { "type": "string", "minLength": 1, "maxLength": 64, "description": "节点 sid" },
+            "text": { "type": "string", "maxLength": 200, "description": "备注内容，空字符串删除" }
+          },
+          "required": ["sid", "text"],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "node_notes_offline",
+        "title": "统计离线节点",
+        "category": "read",
+        "description": "返回当前离线节点数量与名单，以及最近一次统计时间",
+        "inputSchema": { "type": "object", "properties": {}, "additionalProperties": false }
+      }
+    ]
+  }
+}

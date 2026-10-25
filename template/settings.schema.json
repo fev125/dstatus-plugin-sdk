@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "threshold": { "type": "integer", "title": "离线阈值（台）", "description": "离线节点数超过这个数就发通知", "minimum": 0, "maximum": 10000, "default": 3 },
+    "notify": { "type": "boolean", "title": "发通知", "description": "关掉后只统计不提醒", "default": true }
+  },
+  "required": ["threshold"],
+  "additionalProperties": false
+}
