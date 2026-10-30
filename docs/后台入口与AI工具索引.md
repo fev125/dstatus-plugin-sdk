@@ -106,7 +106,7 @@
 - `merchant_delete` 删除商家：按 id 删除商家
 - `merchant_aff_tag_settings_update` 修改推广标签设置：更新购买同款与商家名称标签注入设置
 - `personalization_update` 修改个性化设置：修改个性化页的全站设置（对所有访客生效，不是个人偏好）
-- `plugin_set_enabled` 开启或关闭插件：开启或关闭一个内置插件（对整个站点生效）
+- `plugin_set_enabled` 启用或停用插件：开启或关闭一个内置插件（对整个站点生效）
 - `plugin_dev_mode_off` 关闭插件开发者模式：关闭插件开发者模式：所有开发中的插件（plugins_list 里 dev=true，没经官方市场审核）立即停止，数据与设置保留
 - `group_create` 新建分组：创建分组
 - `group_update` 修改分组：按 id 修改分组名称或排序
